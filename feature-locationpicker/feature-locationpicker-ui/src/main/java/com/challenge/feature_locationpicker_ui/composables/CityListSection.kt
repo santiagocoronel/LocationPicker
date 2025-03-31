@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.challenge.feature_locationpicker_presentation.model.CityUiModel
 
 @Composable
 fun CityListSection(

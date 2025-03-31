@@ -1,71 +1,4 @@
 [versions]
-#kotlin = "2.0.0"
-#compose-compiler = "2.0.0"
-#
-#agp = "8.9.0"
-#coreKtx = "1.15.0"
-#junit = "4.13.2"
-#junitVersion = "1.2.1"
-#espressoCore = "3.6.1"
-#appcompat = "1.6.1"
-#material = "1.10.0"
-#
-#room = "2.6.1"
-#serialization = "1.6.3"
-#retrofit = "2.11.0"
-#retrofit-serialization = "1.0.0"
-#koin = "3.5.3"
-#okhttp = "4.12.0"
-#maps-compose = "4.4.1"
-#navigation-compose = "2.7.7"
-#compose-bom = "2024.12.01"
-#lifecycle = "2.7.0"
-#coroutines = "1.8.1"
-#
-#[plugins]
-#android-application = { id = "com.android.application", version.ref = "agp" }
-#android-library = { id = "com.android.library", version.ref = "agp" }
-#kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-#kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-#compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "compose-compiler" }
-#
-#[libraries]
-#androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-#junit = { group = "junit", name = "junit", version.ref = "junit" }
-#androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-#androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-#androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-#material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-#koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
-#koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-#koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
-#okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
-#google-maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "maps-compose" }
-#androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
-#androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-#compose-material = { group = "androidx.compose.material", name = "material", version = "1.7.8" }
-#compose-ui = { group = "androidx.compose.ui", name = "ui", version = "1.7.8" }
-#compose-ui-platform = { group = "androidx.compose.ui", name = "ui-platform", version.ref = "compose-bom" }
-#compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version = "1.7.8" }
-#compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.7.8" }
-#lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-#kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
-#kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
-#
-## Iconos
-#compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version = "1.7.8" }
-#compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
-#
-## ROOM
-#room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-#room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-#room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-#
-## RETROFIT + SERIALIZATION
-#kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
-#retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-#retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-serialization" }
-
 agp = "8.9.0"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
@@ -75,7 +8,6 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2024.09.00"
-#NEW
 serialization = "1.6.3"
 serialization-core = "1.6.3"
 retrofit-serialization = "0.8.0"
@@ -84,14 +16,11 @@ okhttp = "4.12.0"
 koin = "3.5.3"
 room = "2.6.1"
 
-
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-#NEW
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [libraries]
@@ -109,32 +38,21 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-#NEW
-
-# RETROFIT + SERIALIZATION
-#kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
-#retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-#retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-serialization" }
+#Icons
+compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version = "1.7.8" }
+compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
+#Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "serialization-core" }
-
+#Retrofit + Serialization
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-serialization" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
-
 #Koin
-# Núcleo (para módulos sin Android, por ejemplo DOMAIN)
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
-
-# Para usar Koin en módulos Android (Application, Context, ViewModel, etc.)
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-
-# ViewModel extensions para Android
 koin-androidx-viewmodel = { group = "io.insert-koin", name = "koin-androidx-viewmodel", version.ref = "koin" }
-
-# Para integración con Jetpack Compose
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
-
 #Room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }

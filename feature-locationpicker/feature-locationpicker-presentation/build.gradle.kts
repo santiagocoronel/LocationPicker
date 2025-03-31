@@ -35,8 +35,6 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
-//    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -46,8 +44,4 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
-
-//    implementation(libs.lifecycle.viewmodel)
-//    implementation(libs.kotlinx.coroutines.core)
-//    implementation(libs.kotlinx.coroutines.android)
 }

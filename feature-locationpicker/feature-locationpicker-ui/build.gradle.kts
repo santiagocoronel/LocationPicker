@@ -61,5 +61,7 @@ dependencies {
 //    implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.compose)
 
+    implementation(libs.compose.icons.core)
+    implementation(libs.compose.icons.extended)
 
  }
