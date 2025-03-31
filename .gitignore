@@ -1,0 +1,52 @@
+# --- Build files ---
+/build/
+*.apk
+*.ap_
+*.dex
+*.class
+*.so
+*.jar
+*.kotlin_module
+
+# --- IDE files ---
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# --- Android Studio specific ---
+/.gradle/
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.idea/misc.xml
+
+# --- Log files ---
+*.log
+
+# --- Captures and test output ---
+/captures/
+/test-results/
+/output.json
+/output/
+/coverage/
+
+# --- Lint cache ---
+lint/intermediates/
+
+# --- Signing keys and sensitive data ---
+*.keystore
+*.jks
+google-services.json
+firebase-debug.log
+.env
+
+# --- macOS system files ---
+.DS_Store
+
+# --- Node.js (in case of React Native or hybrid projects) ---
+node_modules/
