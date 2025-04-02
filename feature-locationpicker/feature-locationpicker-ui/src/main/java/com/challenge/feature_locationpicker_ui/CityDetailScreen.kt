@@ -61,7 +61,6 @@ fun CityDetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Google Map Section
             val cityLatLng = LatLng(city.coord.lat, city.coord.lon)
             val cameraPositionState = rememberCameraPositionState {
                 position = CameraPosition.fromLatLngZoom(cityLatLng, 12f)

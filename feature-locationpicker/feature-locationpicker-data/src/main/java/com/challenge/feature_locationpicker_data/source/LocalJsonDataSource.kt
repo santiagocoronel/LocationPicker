@@ -17,6 +17,7 @@ class LocalJsonDataSource(
             val jsonString = inputStream.bufferedReader().use { it.readText() }
             jsonParser.decodeFromString(jsonString)
         } catch (e: Exception) {
+            e.printStackTrace()
             emptyList()
         }
     }

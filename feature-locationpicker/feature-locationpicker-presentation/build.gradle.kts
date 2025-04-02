@@ -41,10 +41,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(":feature-locationpicker:feature-locationpicker-domain"))
-
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
-
     implementation(libs.kotlinx.serialization.json)
 }

@@ -36,8 +36,6 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
-//    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -46,17 +44,11 @@ dependencies {
     implementation(project(":feature-locationpicker:feature-locationpicker-remote"))
     implementation(project(":feature-locationpicker:feature-locationpicker-local"))
     implementation(project(":core:core-utils"))
-
-    //implementation(libs.kotlinx.serialization.json)
-    //implementation(libs.kotlinx.serialization.core)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization.converter)
     implementation(libs.okhttp)
-
     implementation(libs.koin.core)
-
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
 

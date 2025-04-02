@@ -7,7 +7,6 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-//TODO: revisar si necesitamos alguna logica para manejo de errores mas complejos.
 class RemoteDataSource(
     private val api: CityApi
 ) {
