@@ -57,11 +57,12 @@ dependencies {
     implementation(project(":feature-locationpicker:feature-locationpicker-presentation"))
     implementation(project(":feature-locationpicker:feature-locationpicker-domain"))
 
-//    implementation(libs.google.maps.compose)
 //    implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.compose)
 
     implementation(libs.compose.icons.core)
     implementation(libs.compose.icons.extended)
 
+    implementation(libs.google.maps.compose)
+    implementation(libs.google.maps.core)
  }

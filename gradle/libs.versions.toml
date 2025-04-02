@@ -15,6 +15,9 @@ retrofit = "2.9.0"
 okhttp = "4.12.0"
 koin = "3.5.3"
 room = "2.6.1"
+navigation-compose = "2.7.7"
+google-maps-version = "4.4.1"
+play-services-maps = "18.2.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -38,6 +41,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 #Icons
 compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version = "1.7.8" }
 compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
@@ -57,4 +61,6 @@ koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", versi
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-
+#Google
+google-maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "google-maps-version" }
+google-maps-core = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "play-services-maps" }
