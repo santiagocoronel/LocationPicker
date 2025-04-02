@@ -42,8 +42,7 @@ fun AppNavHost(navController: NavHostController) {
 
             CityDetailScreen(
                 city = city,
-                onBack = { navController.popBackStack() },
-                onToggleFavorite = { /* conectar con ViewModel si querés */ }
+                onBack = { navController.popBackStack() }
             )
         }
 

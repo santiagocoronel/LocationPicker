@@ -25,8 +25,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun CityDetailScreen(
     city: CityUiModel,
-    onBack: () -> Unit,
-    onToggleFavorite: (Int) -> Unit
+    onBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -35,14 +34,6 @@ fun CityDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { onToggleFavorite(city.id) }) {
-                        Icon(
-                            imageVector = if (city.isFavorite) Icons.Filled.Star else Icons.Filled.StarBorder,
-                            contentDescription = "Toggle Favorite"
-                        )
                     }
                 }
             )

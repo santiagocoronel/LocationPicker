@@ -20,7 +20,11 @@ fun LocationPickerScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(WindowInsets.safeDrawing.asPaddingValues())
+    ) {
         val isLandscape = maxWidth > maxHeight
 
         if (isLandscape) {
