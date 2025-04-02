@@ -33,6 +33,10 @@ android {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -51,5 +55,10 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 
 }

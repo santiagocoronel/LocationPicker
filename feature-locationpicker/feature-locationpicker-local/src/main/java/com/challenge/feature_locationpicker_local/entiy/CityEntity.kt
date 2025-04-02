@@ -1,8 +1,8 @@
 package com.challenge.feature_locationpicker_local.entiy
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Embedded
 
 @Entity(tableName = "cities")
 data class CityEntity(

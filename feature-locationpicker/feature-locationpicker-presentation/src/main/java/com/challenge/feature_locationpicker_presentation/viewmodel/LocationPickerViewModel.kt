@@ -9,7 +9,12 @@ import com.challenge.feature_locationpicker_presentation.mapper.toUi
 import com.challenge.feature_locationpicker_presentation.model.CityUiModel
 import com.challenge.feature_locationpicker_presentation.model.Filters
 import com.challenge.feature_locationpicker_presentation.state.LocationPickerUiState
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class LocationPickerViewModel(

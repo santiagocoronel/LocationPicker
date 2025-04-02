@@ -36,6 +36,10 @@ android {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -61,4 +65,9 @@ dependencies {
     implementation(libs.compose.icons.extended)
     implementation(libs.google.maps.compose)
     implementation(libs.google.maps.core)
+
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
  }
