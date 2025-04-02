@@ -32,11 +32,16 @@ fun LocationPickerScreen(
                     cities = uiState.cities,
                     query = uiState.query,
                     onlyFavorites = uiState.onlyFavorites,
+                    isLoading = uiState.isLoading,
+                    error = uiState.error,
                     onQueryChanged = viewModel::onQueryChanged,
                     onToggleFavorites = viewModel::onToggleOnlyFavorites,
                     onToggleCityFavorite = viewModel::onToggleFavorite,
-                    onCityClick = viewModel::onCitySelected,
-                    onCityInfoClick = { onNavigateToCityDetail(it) }
+                    onCityClick = { city ->
+                        viewModel.onCitySelected(city)
+                        onNavigateToCityMap(city)
+                    },
+                    onCityInfoClick = onNavigateToCityDetail
                 )
 
                 Box(
@@ -54,6 +59,8 @@ fun LocationPickerScreen(
                     cities = uiState.cities,
                     query = uiState.query,
                     onlyFavorites = uiState.onlyFavorites,
+                    isLoading = uiState.isLoading,
+                    error = uiState.error,
                     onQueryChanged = viewModel::onQueryChanged,
                     onToggleFavorites = viewModel::onToggleOnlyFavorites,
                     onToggleCityFavorite = viewModel::onToggleFavorite,
@@ -61,7 +68,7 @@ fun LocationPickerScreen(
                         viewModel.onCitySelected(city)
                         onNavigateToCityMap(city)
                     },
-                    onCityInfoClick = viewModel::onCityInfoRequested
+                    onCityInfoClick = onNavigateToCityDetail
                 )
             }
         }

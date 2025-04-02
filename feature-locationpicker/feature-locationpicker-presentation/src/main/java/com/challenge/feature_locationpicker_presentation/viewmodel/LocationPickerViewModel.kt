@@ -7,6 +7,7 @@ import com.challenge.feature_locationpicker_domain.usecase.SyncCitiesUseCase
 import com.challenge.feature_locationpicker_domain.usecase.ToggleFavoriteUseCase
 import com.challenge.feature_locationpicker_presentation.mapper.toUi
 import com.challenge.feature_locationpicker_presentation.model.CityUiModel
+import com.challenge.feature_locationpicker_presentation.model.Filters
 import com.challenge.feature_locationpicker_presentation.state.LocationPickerUiState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,47 +22,83 @@ class LocationPickerViewModel(
     private val _onlyFavorites = MutableStateFlow(false)
     private val _selectedCity = MutableStateFlow<CityUiModel?>(null)
     private val _cities = MutableStateFlow<List<CityUiModel>>(emptyList())
+    private val _isLoading = MutableStateFlow(false)
+    private val _error = MutableStateFlow<String?>(null)
 
-    val uiState: StateFlow<LocationPickerUiState> = combine(
-        _query,
-        _onlyFavorites,
-        _cities,
-        _selectedCity
-    ) { query, onlyFavorites, cities, selectedCity ->
-        LocationPickerUiState(
-            query = query,
-            onlyFavorites = onlyFavorites,
-            cities = cities,
-            selectedCity = selectedCity
+    private val filtersFlow = combine(_query, _onlyFavorites) { query, onlyFavs ->
+        Filters(query, onlyFavs)
+    }
+    val uiState: StateFlow<LocationPickerUiState> =
+        combine(
+            filtersFlow,
+            _cities,
+            _selectedCity,
+            _isLoading,
+            _error
+        ) { filters, cities, selectedCity, isLoading, error ->
+            LocationPickerUiState(
+                query = filters.query,
+                onlyFavorites = filters.onlyFavorites,
+                cities = cities,
+                selectedCity = selectedCity,
+                isLoading = isLoading,
+                error = error
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = LocationPickerUiState()
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LocationPickerUiState())
 
     init {
         syncAndLoadCities()
+
+        viewModelScope.launch {
+            combine(_query, _onlyFavorites) { query, onlyFavs ->
+                query to onlyFavs
+            }
+                .debounce(250)
+                .collect { loadCities() }
+        }
     }
 
     private fun syncAndLoadCities() {
         viewModelScope.launch {
-            syncCitiesUseCase() // sincroniza si es necesario
-            loadCities()
+            _isLoading.value = true
+            _error.value = null
+            try {
+                syncCitiesUseCase()
+                loadCities()
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Error during sync"
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
     private fun loadCities() {
         viewModelScope.launch {
-            val cities = getCitiesUseCase(_query.value, _onlyFavorites.value)
-            _cities.value = cities.map { it.toUi() }
+            _isLoading.value = true
+            _error.value = null
+            try {
+                val result = getCitiesUseCase(_query.value, _onlyFavorites.value)
+                _cities.value = result.map { it.toUi() }
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Failed to load cities"
+                _cities.value = emptyList()
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
     fun onQueryChanged(newQuery: String) {
         _query.value = newQuery
-        loadCities()
     }
 
     fun onToggleOnlyFavorites() {
         _onlyFavorites.value = !_onlyFavorites.value
-        loadCities()
     }
 
     fun onToggleFavorite(id: Int) {
@@ -75,7 +112,4 @@ class LocationPickerViewModel(
         _selectedCity.value = city
     }
 
-    fun onCityInfoRequested(city: CityUiModel) {
-        // implementar navegación a detalle luego
-    }
 }

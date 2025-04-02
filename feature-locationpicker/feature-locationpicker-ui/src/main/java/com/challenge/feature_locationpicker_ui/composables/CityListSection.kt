@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.challenge.feature_locationpicker_presentation.model.CityUiModel
@@ -15,6 +16,8 @@ fun CityListSection(
     cities: List<CityUiModel>,
     query: String,
     onlyFavorites: Boolean,
+    isLoading: Boolean,
+    error: String?,
     onQueryChanged: (String) -> Unit,
     onToggleFavorites: () -> Unit,
     onToggleCityFavorite: (Int) -> Unit,
@@ -44,17 +47,48 @@ fun CityListSection(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(cities) { city ->
-                CityItem(
-                    city = city,
-                    onToggleFavorite = { onToggleCityFavorite(city.id) },
-                    onClick = { onCityClick(city) },
-                    onInfoClick = { onCityInfoClick(city) }
-                )
+        when {
+            isLoading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            error != null -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Error: $error", color = MaterialTheme.colorScheme.error)
+                }
+            }
+
+            cities.isEmpty() -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No cities found.")
+                }
+            }
+
+            else -> {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(cities) { city ->
+                        CityItem(
+                            city = city,
+                            onToggleFavorite = { onToggleCityFavorite(city.id) },
+                            onClick = { onCityClick(city) },
+                            onInfoClick = { onCityInfoClick(city) }
+                        )
+                    }
+                }
             }
         }
     }
