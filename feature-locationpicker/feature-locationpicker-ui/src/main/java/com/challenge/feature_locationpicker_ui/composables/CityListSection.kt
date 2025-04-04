@@ -92,7 +92,10 @@ fun CityListSection(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(cities) { city ->
+                    items(
+                        items = cities,
+                        key = { it.id }
+                    ) { city ->
                         CityItem(
                             city = city,
                             onToggleFavorite = { onToggleCityFavorite(city.id, city.isFavorite) },

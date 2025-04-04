@@ -109,7 +109,23 @@ class LocationPickerViewModel(
     fun onToggleFavorite(id: Int, isFavorite: Boolean) {
         viewModelScope.launch {
             toggleFavoriteUseCase(id, isFavorite)
-            loadCities()
+            toggleFavoriteAndRefreshCity(id, isFavorite)
+        }
+    }
+
+    fun toggleFavoriteAndRefreshCity(id: Int, isFavorite: Boolean) {
+        _cities.value.find { it.id == id }?.let { city ->
+            _cities.value = _cities.value.map {
+                if (it.id == city.id) {
+                    it.copy(isFavorite = !isFavorite)
+                } else {
+                    it
+                }
+            }.also {
+                if (_onlyFavorites.value == true) {
+                    loadCities()
+                }
+            }
         }
     }
 
