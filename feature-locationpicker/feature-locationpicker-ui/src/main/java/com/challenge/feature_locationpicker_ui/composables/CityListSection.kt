@@ -32,7 +32,7 @@ fun CityListSection(
     error: String?,
     onQueryChanged: (String) -> Unit,
     onToggleFavorites: () -> Unit,
-    onToggleCityFavorite: (Int) -> Unit,
+    onToggleCityFavorite: (Int, Boolean) -> Unit,
     onCityClick: (CityUiModel) -> Unit,
     onCityInfoClick: (CityUiModel) -> Unit
 ) {
@@ -95,7 +95,7 @@ fun CityListSection(
                     items(cities) { city ->
                         CityItem(
                             city = city,
-                            onToggleFavorite = { onToggleCityFavorite(city.id) },
+                            onToggleFavorite = { onToggleCityFavorite(city.id, city.isFavorite) },
                             onClick = { onCityClick(city) },
                             onInfoClick = { onCityInfoClick(city) }
                         )

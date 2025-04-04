@@ -20,24 +20,25 @@ class ToggleFavoriteUseCaseTest {
 
     @Test
     fun `When invoked with city id Then repository toggles favorite`() = runTest {
-        val cityId = `given a city id to toggle`()
-        `when use case is invoked with id`(cityId)
-        `then repository should toggle favorite`(cityId)
+        val (cityId, isFavorite) = `Given a city id and favorite true to toggle`()
+        val expectedFavorite = false
+        `When use case is invoked with id`(cityId, isFavorite)
+        `Then repository should toggle favorite`(cityId, expectedFavorite)
     }
 
     //region Given
-    private fun `given a city id to toggle`(): Int = 42
+    private fun `Given a city id and favorite true to toggle`(): Pair<Int, Boolean> = Pair(43, true)
     //endregion
 
     //region When
-    private suspend fun `when use case is invoked with id`(cityId: Int) {
-        useCase(cityId)
+    private suspend fun `When use case is invoked with id`(cityId: Int, isFavorite: Boolean) {
+        useCase(cityId, isFavorite)
     }
     //endregion
 
     //region Then
-    private fun `then repository should toggle favorite`(cityId: Int) {
-        coVerify { repository.toggleFavorite(cityId) }
+    private fun `Then repository should toggle favorite`(cityId: Int, isFavorite: Boolean) {
+        coVerify { repository.toggleFavorite(cityId, isFavorite) }
     }
     //endregion
 }

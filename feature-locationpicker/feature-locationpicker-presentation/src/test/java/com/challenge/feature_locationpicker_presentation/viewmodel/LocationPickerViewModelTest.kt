@@ -7,6 +7,7 @@ import com.challenge.feature_locationpicker_domain.usecase.GetCitiesUseCase
 import com.challenge.feature_locationpicker_domain.usecase.SyncCitiesUseCase
 import com.challenge.feature_locationpicker_domain.usecase.ToggleFavoriteUseCase
 import com.challenge.feature_locationpicker_presentation.mapper.toUi
+import com.challenge.feature_locationpicker_presentation.model.CityUiModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LocationPickerViewModelTest {
@@ -41,7 +41,7 @@ class LocationPickerViewModelTest {
     )
 
     @BeforeEach
-    fun setUp() {
+    fun setup() {
         Dispatchers.setMain(testDispatcher)
         getCitiesUseCase = mockk()
         toggleFavoriteUseCase = mockk(relaxed = true)
@@ -62,7 +62,98 @@ class LocationPickerViewModelTest {
     }
 
     @Test
-    fun `Given initial state When ViewModel is created Then cities appear in UI state`() = runTest {
+    fun `When ViewModel is created, Given initial state, Then cities appear in UI state`() = runTest {
+        `Then cities appear in UI state`()
+    }
+
+    @Test
+    fun `When user types a query, Given query filter is mocked, Then update state and filter cities`() = runTest {
+        `Given query filter returns sample cities`("Al")
+        `When user types query`("Al")
+        `Then query should update and cities filtered`("Al")
+    }
+
+    @Test
+    fun `When toggle favorites is used, Given favorites filter is mocked, Then show only favorites`() = runTest {
+        `Given favorites filter returns sample cities`()
+        `When toggle favorites is called`()
+        `Then UI state should show only favorites`()
+    }
+
+    @Test
+    fun `When toggleFavorite is called, Given valid city id, Then update and reload cities`() = runTest {
+        `Given cities are loaded`()
+        `When toggleFavorite is called`(1, true)
+        advanceUntilIdle()
+        `Then toggleFavoriteUseCase should be invoked`(1, true)
+    }
+
+    @Test
+    fun `When city is selected, Given valid city, Then selectedCity updates`() = runTest {
+        val city = sampleCities[0].toUi()
+        `When city is selected`(city)
+        `Then selectedCity should be`(city)
+    }
+
+    @Test
+    fun `When ViewModel initializes, Given sync and fetch fail, Then error is set in UI state`() = runTest {
+        `Given sync and fetch fail`()
+        `When ViewModel is reinitialized`()
+        `Then error should be set in UI state`()
+    }
+
+    // region Given
+
+    private fun `Given query filter returns sample cities`(query: String) {
+        coEvery { getCitiesUseCase(query, false) } returns sampleCities
+    }
+
+    private fun `Given favorites filter returns sample cities`() {
+        coEvery { getCitiesUseCase("", true) } returns sampleCities.filter { it.isFavorite }
+    }
+
+    private fun `Given sync and fetch fail`() {
+        coEvery { syncCitiesUseCase() } throws RuntimeException("Sync failed")
+        coEvery { getCitiesUseCase(any(), any()) } throws RuntimeException("Fetch failed")
+    }
+
+    private fun `Given cities are loaded`() {
+        coEvery { getCitiesUseCase(any(), any()) } returns sampleCities
+    }
+
+    // endregion
+
+    // region When
+
+    private fun `When user types query`(query: String) {
+        viewModel.onQueryChanged(query)
+    }
+
+    private fun `When toggle favorites is called`() {
+        viewModel.onToggleOnlyFavorites()
+    }
+
+    private fun `When toggleFavorite is called`(id: Int, isFavorite: Boolean) {
+        viewModel.onToggleFavorite(id, isFavorite)
+    }
+
+    private fun `When city is selected`(city: CityUiModel) {
+        viewModel.onCitySelected(city)
+    }
+
+    private fun `When ViewModel is reinitialized`() {
+        viewModel = LocationPickerViewModel(
+            getCitiesUseCase = getCitiesUseCase,
+            toggleFavoriteUseCase = toggleFavoriteUseCase,
+            syncCitiesUseCase = syncCitiesUseCase
+        )
+    }
+
+    // endregion
+
+    // region Then
+
+    private fun `Then cities appear in UI state`() = runTest {
         viewModel.uiState.test {
             skipItems(1)
             val state = awaitItem()
@@ -71,64 +162,46 @@ class LocationPickerViewModelTest {
         }
     }
 
-    @Test
-    fun `When query changes Then update state and fetch cities`() = runTest {
-        `given filtered result for query "Al"`()
-        viewModel.onQueryChanged("Al")
-        `then query should update and cities filtered`("Al")
-        coVerify { getCitiesUseCase("Al", false) }
+    private fun `Then query should update and cities filtered`(expectedQuery: String) = runTest {
+        viewModel.uiState.test {
+            skipItems(1)
+            val state = awaitItem()
+            assertEquals(expectedQuery, state.query)
+            assertEquals(sampleCities.map { it.toUi() }, state.cities)
+            cancelAndConsumeRemainingEvents()
+        }
+        coVerify { getCitiesUseCase(expectedQuery, false) }
     }
 
-    @Test
-    fun `When toggleOnlyFavorites is called Then filter only favorites`() = runTest {
-        val filtered = sampleCities.filter { it.isFavorite }
-        coEvery { getCitiesUseCase("", true) } returns filtered
-
-        viewModel.onToggleOnlyFavorites()
-
+    private fun `Then UI state should show only favorites`() = runTest {
         viewModel.uiState.test {
             skipItems(1)
             val state = awaitItem()
             assertTrue(state.onlyFavorites)
-            assertEquals(filtered.map { it.toUi() }, state.cities)
+            assertEquals(
+                sampleCities.filter { it.isFavorite }.map { it.toUi() },
+                state.cities
+            )
             cancelAndConsumeRemainingEvents()
         }
-
         coVerify { getCitiesUseCase("", true) }
     }
 
-    @Test
-    fun `When toggleFavorite is called Then call toggleFavoriteUseCase and reload cities`() = runTest {
-        viewModel.onToggleFavorite(1)
-        advanceUntilIdle()
-        coVerify(exactly = 1) { toggleFavoriteUseCase(1) }
+    private fun `Then toggleFavoriteUseCase should be invoked`(cityId: Int, isFavorite: Boolean) {
+        coVerify(exactly = 1) { toggleFavoriteUseCase(cityId, isFavorite) }
         coVerify(atLeast = 1) { getCitiesUseCase(any(), any()) }
     }
 
-    @Test
-    fun `When city is selected Then selectedCity updates`() = runTest {
-        val city = sampleCities[0].toUi()
-        viewModel.onCitySelected(city)
-
+    private fun `Then selectedCity should be`(expected: CityUiModel) = runTest {
         viewModel.uiState.test {
             skipItems(1)
             val state = awaitItem()
-            assertEquals(city, state.selectedCity)
+            assertEquals(expected, state.selectedCity)
             cancelAndConsumeRemainingEvents()
         }
     }
 
-    @Test
-    fun `When sync or getCities fails Then error is set in UI state`() = runTest {
-        coEvery { syncCitiesUseCase() } throws RuntimeException("Sync failed")
-        coEvery { getCitiesUseCase(any(), any()) } throws RuntimeException("Fetch failed")
-
-        viewModel = LocationPickerViewModel(
-            getCitiesUseCase = getCitiesUseCase,
-            toggleFavoriteUseCase = toggleFavoriteUseCase,
-            syncCitiesUseCase = syncCitiesUseCase
-        )
-
+    private fun `Then error should be set in UI state`() = runTest {
         viewModel.uiState.test {
             skipItems(1)
             val state = awaitItem()
@@ -137,25 +210,5 @@ class LocationPickerViewModelTest {
         }
     }
 
-    //region Given
-
-    private fun `given filtered result for query "Al"`() {
-        coEvery { getCitiesUseCase("Al", false) } returns sampleCities
-    }
-
-    //endregion
-
-    //region Then
-
-    private fun `then query should update and cities filtered`(query: String) = runTest {
-        viewModel.uiState.test {
-            skipItems(1)
-            val state = awaitItem()
-            assertEquals(query, state.query)
-            assertEquals(sampleCities.map { it.toUi() }, state.cities)
-            cancelAndConsumeRemainingEvents()
-        }
-    }
-
-    //endregion
+    // endregion
 }

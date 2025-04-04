@@ -1,5 +1,6 @@
 package com.challenge.feature_locationpicker_data.repository
 
+
 import com.challenge.feature_locationpicker_data.mapper.toDomain
 import com.challenge.feature_locationpicker_data.source.LocalJsonDataSource
 import com.challenge.feature_locationpicker_data.source.RemoteDataSource
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-
 class LocationRepositoryImplTest {
 
     private lateinit var cityDao: CityDao
@@ -23,7 +23,7 @@ class LocationRepositoryImplTest {
     private lateinit var localJsonDataSource: LocalJsonDataSource
     private lateinit var repository: LocationRepositoryImpl
 
-    private val sampleEntities = listOf(
+    private val expectedCityEntities = listOf(
         CityEntity(1, "Barcelona", "ES", CoordEntity(1.0, 2.0), isFavorite = false),
         CityEntity(2, "Berlin", "DE", CoordEntity(3.0, 4.0), isFavorite = true)
     )
@@ -37,29 +37,35 @@ class LocationRepositoryImplTest {
     }
 
     @Test
-    fun `When getCitiesByPrefix is called, Given cityDao returns entities, Then return mapped domain objects`() = runTest {
-        `given cityDao returns matching cities`()
-        val result = `when getCitiesByPrefix is called`()
-        `then return domain mapped list`(result)
+    fun `When getCitiesByPrefix is called, Given DAO returns cities for prefix B, Then return domain mapped cities`() = runTest {
+        `Given DAO returns cities for prefix B`()
+        val result = `When getCitiesByPrefix is called`()
+        `Then return domain mapped cities`(result)
     }
 
     //region Given
-    private fun `given cityDao returns matching cities`() {
-        coEvery { cityDao.searchCities("B", false) } returns sampleEntities
+
+    private fun `Given DAO returns cities for prefix B`() {
+        coEvery { cityDao.searchCities("B", false) } returns expectedCityEntities
     }
+
     //endregion
 
     //region When
-    private suspend fun `when getCitiesByPrefix is called`(): List<City> {
+
+    private suspend fun `When getCitiesByPrefix is called`(): List<City> {
         return repository.getCitiesByPrefix("B", false)
     }
+
     //endregion
 
     //region Then
-    private fun `then return domain mapped list`(result: List<City>) {
-        val expected = sampleEntities.map { it.toDomain() }
+
+    private fun `Then return domain mapped cities`(result: List<City>) {
+        val expected = expectedCityEntities.map { it.toDomain() }
         assertEquals(expected, result)
         coVerify { cityDao.searchCities("B", false) }
     }
+
     //endregion
 }

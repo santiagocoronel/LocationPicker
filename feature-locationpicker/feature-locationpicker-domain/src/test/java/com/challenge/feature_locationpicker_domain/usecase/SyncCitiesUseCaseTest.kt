@@ -23,39 +23,39 @@ class SyncCitiesUseCaseTest {
 
     @Test
     fun `When sync is needed Then repository returns true`() = runTest {
-        `given sync is needed`()
-        val result = `when use case is invoked`()
-        `then result should be true and repository called`(result)
+        `Given sync is needed`()
+        val result = `When use case is invoked`()
+        `Then result should be true and repository called`(result)
     }
 
     @Test
     fun `When sync is not needed Then repository returns false`() = runTest {
-        `given sync is not needed`()
-        val result = `when use case is invoked`()
-        `then result should be false and repository called`(result)
+        `Given sync is not needed`()
+        val result = `When use case is invoked`()
+        `Then result should be false and repository called`(result)
     }
 
     //region Given
-    private fun `given sync is needed`() {
+    private fun `Given sync is needed`() {
         coEvery { repository.syncCitiesIfNeeded() } returns true
     }
 
-    private fun `given sync is not needed`() {
+    private fun `Given sync is not needed`() {
         coEvery { repository.syncCitiesIfNeeded() } returns false
     }
     //endregion
 
     //region When
-    private suspend fun `when use case is invoked`() = useCase()
+    private suspend fun `When use case is invoked`() = useCase()
     //endregion
 
     //region Then
-    private fun `then result should be true and repository called`(result: Boolean) {
+    private fun `Then result should be true and repository called`(result: Boolean) {
         assertTrue(result)
         coVerify { repository.syncCitiesIfNeeded() }
     }
 
-    private fun `then result should be false and repository called`(result: Boolean) {
+    private fun `Then result should be false and repository called`(result: Boolean) {
         assertFalse(result)
         coVerify { repository.syncCitiesIfNeeded() }
     }

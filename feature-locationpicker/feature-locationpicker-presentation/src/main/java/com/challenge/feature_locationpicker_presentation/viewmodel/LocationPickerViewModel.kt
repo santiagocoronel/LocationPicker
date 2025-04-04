@@ -106,9 +106,9 @@ class LocationPickerViewModel(
         _onlyFavorites.value = !_onlyFavorites.value
     }
 
-    fun onToggleFavorite(id: Int) {
+    fun onToggleFavorite(id: Int, isFavorite: Boolean) {
         viewModelScope.launch {
-            toggleFavoriteUseCase(id)
+            toggleFavoriteUseCase(id, isFavorite)
             loadCities()
         }
     }

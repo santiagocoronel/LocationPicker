@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.challenge.feature_locationpicker_local.entiy.CityEntity
 
 @Dao
@@ -16,8 +15,8 @@ interface CityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(cities: List<CityEntity>)
 
-    @Update
-    suspend fun update(city: CityEntity)
+    @Query("UPDATE cities SET isFavorite = :isFavorite WHERE id = :cityId")
+    suspend fun update(cityId: Int, isFavorite: Boolean)
 
     @Query("SELECT COUNT(*) FROM cities")
     suspend fun countCities(): Int

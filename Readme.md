@@ -1,27 +1,27 @@
 # Location Picker Challenge
 
-Este proyecto es parte de un challenge técnico que consiste en desarrollar una aplicación Android para visualizar una lista de ciudades, filtrarlas, marcarlas como favoritas y ver su ubicación en un mapa. El proyecto respeta en su máxima expresión los principios de **Clean Architecture** y **SOLID**.
+This project is part of a technical challenge that consists of developing an Android application to visualize a list of cities, filter them, mark them as favorites, and view their location on a map. The project fully adheres to the principles of **Clean Architecture** and **SOLID**.
 
 ---
 
-## 🧠 Tecnologías y stack utilizado
+## Technologies and Stack
 
-- **Lenguaje**: Kotlin 2.0.21
-- **Arquitectura**: Clean Architecture (UI, Presentation, Domain, Data)
+- **Language**: Kotlin 2.0.21
+- **Architecture**: Clean Architecture (UI, Presentation, Domain, Data)
 - **Jetpack Compose**: Material 3
 - **Navigation**: Navigation Compose
-- **Mapas**: Google Maps con Compose
-- **Persistencia**: Room
-- **Red**: Retrofit + kotlinx.serialization
-- **Inyección de dependencias**: Koin
+- **Maps**: Google Maps with Compose
+- **Persistence**: Room
+- **Networking**: Retrofit + kotlinx.serialization
+- **Dependency Injection**: Koin
 - **Testing**:
-    - Unit tests: JUnit 5 + MockK
-    - StateFlow tests: Turbine (CashApp)
-    - UI tests: Jetpack Compose Testing
+  - Unit tests: JUnit 5 + MockK
+  - StateFlow tests: Turbine (CashApp)
+  - UI tests: Jetpack Compose Testing
 
 ---
 
-## 📁 Estructura del proyecto
+## Project Structure
 
 ```bash
 LocationPicker/
@@ -39,89 +39,96 @@ LocationPicker/
 │   ├── feature-locationpicker-data
 │   ├── feature-locationpicker-local
 │   └── feature-locationpicker-remote
+```
 
-✨ Features
-	•	Visualización de ciudades obtenidas de un JSON remoto o local.
-	•	Filtrado por texto.
-	•	Filtro de favoritos (switch toggle).
-	•	Marcado de ciudades como favoritas.
-	•	Pantalla de detalle con más información.
-	•	Visualización de la ciudad seleccionada en un mapa.
-	•	Soporte para portrait y landscape:
-	•	En portrait: lista de ciudades y navegación a mapa.
-	•	En landscape: lista y mapa visibles en pantalla dividida.
+---
 
-⸻
-
-🧪 Testing
-
-Se testean todas las capas de la arquitectura excepto la UI, siguiendo el enfoque del Android Testing Mantra:
-
-Given → When → Then: cada test se estructura dividiendo claramente su preparación, acción y validación.
-
-Se utilizaron las siguientes herramientas:
-
-✅ Unit Tests
-	•	Se testean:
-	•	UseCases (Domain)
-	•	Repositories (Data)
-	•	ViewModels (Presentation)
-	•	Herramientas:
-	•	JUnit 5
-	•	MockK
-	•	kotlinx.coroutines.test
-	•	app.cash.turbine (para testear StateFlow de los ViewModels)
-
-✅ UI Tests (Jetpack Compose)
-	•	Se testea:
-	•	Interacción con filtros y switches
-	•	Entrada de texto
-	•	Herramientas:
-	•	androidx.compose.ui.test
-	•	createComposeRule
+Features
+•	Display cities loaded from a remote or local JSON source.
+•	Filter by text.
+•	Favorite toggle filter.
+•	Mark/unmark cities as favorites.
+•	Detail screen with city information.
+•	View selected city on a map.
+•	Support for portrait and landscape orientations:
+•	In portrait: city list and navigation to map screen.
+•	In landscape: city list and map displayed side by side.
 
 ⸻
 
-🔄 Sincronización de datos
-	•	La primera vez se intenta sincronizar con la URL remota.
-	•	Si falla, se utiliza el JSON local precargado en assets.
-	•	Solo se vuelve a sincronizar si la cantidad de ciudades difiere con respecto a la base local.
+Testing
+
+All layers of the architecture are tested, except the UI layer. The project follows the Android Testing Mantra:
+
+Given → When → Then — each test is clearly divided into preparation, action, and validation.
+
+Unit Tests
+
+The following components are covered:
+•	Use cases (Domain layer)
+•	Repositories (Data layer)
+•	ViewModels (Presentation layer)
+
+Tools used:
+•	JUnit 5
+•	MockK
+•	kotlinx.coroutines.test
+•	Turbine (for testing StateFlow in ViewModels)
+
+UI Tests (Jetpack Compose)
+
+Covered interactions:
+•	Filter and toggle switches
+•	Text input
+
+Tools used:
+•	androidx.compose.ui.test
+•	createComposeRule
 
 ⸻
 
-🧭 Navegación
-	•	Se navega entre:
-	•	Pantalla principal con lista
-	•	Pantalla de detalle
-	•	Pantalla de mapa
-	•	En portrait: navegación clásica
-	•	En landscape: ambas secciones conviven
+Data Synchronization
+•	Initially attempts to fetch city data from a remote URL.
+•	If the fetch fails, falls back to a local JSON file stored in the assets directory.
+•	Sync is only retriggered if the number of cities differs from what’s stored locally.
 
 ⸻
 
-🧩 Decisiones técnicas destacadas
-	•	El proyecto no incluye animaciones para priorizar la funcionalidad (decisión documentada).
-	•	La lectura del JSON local se realiza desde assets, lo cual justifica el uso limitado de Context en un módulo de Data.
-	•	La visualización condicional (portrait vs landscape) se maneja con BoxWithConstraints.
+Navigation
+
+The application supports navigation between:
+•	Main screen with city list
+•	Detail screen
+•	Map screen
+
+In portrait mode, standard navigation is used.
+In landscape mode, both list and map are displayed simultaneously.
 
 ⸻
 
-⚙️ Requisitos
-	•	Android Studio Iguana o superior
-	•	Gradle 8.11.1+
-	•	Kotlin 2.0.21
-	•	API 28 o superior
+Technical Decisions
+•	Animations were not included in favor of focusing on core functionality.
+•	Reading the local JSON file is handled via Android’s assets system, which justifies the use of Context in the Data module.
+•	Orientation-based layout rendering is implemented using BoxWithConstraints.
 
 ⸻
 
-🧳 Instalación
-	1.	Clonar el repositorio
-	2.	Abrir con Android Studio
-	3.	Asegurarse de tener Google Maps API Key
-	4.	Ejecutar con un emulador o dispositivo físico
+Requirements
+•	Android Studio Iguana or newer
+•	Gradle 8.11.1 or higher
+•	Kotlin 2.0.21
+•	Minimum SDK: API 28
 
 ⸻
 
-📄 Licencia
+Installation
+1.	Clone the repository
+2.	Open with Android Studio
+3.	Make sure you provide a valid Google Maps API key
+4.	Run the app on a device or emulator
 
-Este proyecto fue desarrollado con fines educativos y de evaluación técnica.
+⸻
+
+License
+
+This project was developed for educational and technical evaluation purposes.

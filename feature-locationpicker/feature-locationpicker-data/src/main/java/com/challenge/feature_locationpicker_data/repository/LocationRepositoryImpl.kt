@@ -18,10 +18,8 @@ class LocationRepositoryImpl(
         return cityDao.searchCities(prefix, onlyFavorites).map { it.toDomain() }
     }
 
-    override suspend fun toggleFavorite(id: Int) {
-        val city = cityDao.searchCities("", false).firstOrNull { it.id == id } ?: return
-        val updated = city.copy(isFavorite = !city.isFavorite)
-        cityDao.update(updated)
+    override suspend fun toggleFavorite(id: Int, isFavorite: Boolean) {
+        cityDao.update(id, isFavorite)
     }
 
     override suspend fun syncCitiesIfNeeded(): Boolean {
