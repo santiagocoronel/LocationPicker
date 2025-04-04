@@ -14,8 +14,10 @@ class RemoteDataSource(
         try {
             api.getCities()
         } catch (e: IOException) {
+            e.printStackTrace()
             emptyList()
         } catch (e: HttpException) {
+            e.printStackTrace()
             emptyList()
         }
     }

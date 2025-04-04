@@ -2,10 +2,10 @@ package com.challenge.locationpicker.navigation
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.challenge.feature_locationpicker_presentation.model.CityUiModel
 import com.challenge.feature_locationpicker_ui.CityDetailScreen
