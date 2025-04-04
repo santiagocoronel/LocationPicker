@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.challenge.feature_locationpicker_presentation.model.CityUiModel
 
@@ -50,7 +51,8 @@ fun CityItem(
                 IconButton(onClick = onToggleFavorite) {
                     Icon(
                         imageVector = if (city.isFavorite) Icons.Filled.Star else Icons.Outlined.StarOutline,
-                        contentDescription = "Toggle Favorite"
+                        contentDescription = "Toggle Favorite",
+                        tint = if (city.isFavorite) Color.Yellow else Color.White
                     )
                 }
             }
